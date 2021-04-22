@@ -63,7 +63,7 @@ export default {
   methods: {
     initiateSTK() {
       axios
-        .post("/api/stk", {
+        .post("api/stk", {
           amount: this.amount,
           account: this.account,
           phone: this.phone,
@@ -82,7 +82,7 @@ export default {
     },
     verifyLNMO() {
       axios
-        .post("/api/querystk", {
+        .post(window.location.href + "api/querystk", {
           id: this.id,
         })
         .then((resp) => {

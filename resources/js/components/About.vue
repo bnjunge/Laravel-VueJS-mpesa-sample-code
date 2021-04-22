@@ -40,7 +40,7 @@ export default {
   methods: {
     getAccessToken() {
       axios
-        .get("/api/at")
+        .get("api/at")
         .then((response) => {
           this.balance = response.data;
           console.log(response.data);

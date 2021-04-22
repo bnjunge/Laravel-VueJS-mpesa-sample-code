@@ -23,7 +23,7 @@ export default {
   methods: {
     registerURLS() {
       axios
-        .post("/api/register", {})
+        .post("api/register", {})
         .then((response) => {
           this.hasRegisterUrlResponse = true;
           this.registerUrlResponse = response.data.ResponseDescription;

@@ -230,4 +230,49 @@ return [
 
     ],
 
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_HOST',
+            'DB_PORT',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_DRIVER',
+            'MAIL_HOST',
+            'MAIL_PORT',
+            'MAIL_USERNAME',
+            'MAIL_PASSWORD',
+            'MAIL_ENCRYPTION',
+            'JWT_SECRET',
+            'MPESA_CONSUMER_KEY',
+            'MPESA_CONSUMER_SECRET',
+            'MPESA_SHORTCODE',
+            'MPESA_LNMO_SHORTCODE',
+            'MPESA_PASSKEY',
+            'MPESA_B2C_PASSWORD',
+            'MPESA_ENV',
+            'MPESA_TEST_MSISDN',
+            'MPESA_LOCALDEV_URL',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_HOST',
+            'DB_PORT',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_HOST',
+            'MAIL_PORT',
+            'MAIL_USERNAME',
+            'MAIL_PASSWORD',
+            'MAIL_ENCRYPTION',
+            'JWT_SECRET',
+            'GOOGLE_MAPS_GEOCODING_API_KEY',
+        ],
+        '_POST' => [
+            'password',
+        ],
+    ]
+
 ];

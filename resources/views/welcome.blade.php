@@ -36,6 +36,9 @@
               <router-link class="nav-link" to="/mpesa-stk">STK Push</router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" to="/mpesa-b2c">B2C</router-link>
+            </li>
+            <li class="nav-item">
             </li>
           </ul>
         </div>

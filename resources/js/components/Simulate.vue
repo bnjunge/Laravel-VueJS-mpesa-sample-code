@@ -37,7 +37,7 @@ export default {
   methods: {
     simulateTransaction() {
       axios
-        .post("/api/simulate", {
+        .post("api/simulate", {
           amount: this.amount,
           account: this.account,
         })

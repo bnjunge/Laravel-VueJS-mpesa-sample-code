@@ -35,7 +35,7 @@
             <br>
             <p>Regards</p>
             <p>Benson Njunge</p>
-            <p class="strong">Lead Developer, Surv Technologies</p>
+            <p class="strong">Developer, Surv Technologies</p>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default {
   methods: {
     saveTestData() {
       axios
-        .post("/api/save-daraja-details", {
+        .post("api/save-daraja-details", {
           consumer_key: this.consumer_key,
           consumer_secret: this.consumer_secret,
         })

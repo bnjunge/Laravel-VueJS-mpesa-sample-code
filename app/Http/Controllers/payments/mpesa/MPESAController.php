@@ -16,7 +16,7 @@ class MPESAController extends Controller
         $this->headers = ['Content-Type:application/json; charset=utf8'];
         $this->confirmation = url('/') . '/confirmation';
         $this->validation = url('/') . '/validation';
-        $this->baseurl = "https://1c35d2f8ee99.ngrok.io/api";
+        $this->baseurl = env('APP_URL');
     }
 
     public function setHeaders(){
@@ -31,8 +31,8 @@ class MPESAController extends Controller
         $curl_post_data = array(
             'ShortCode' => env('MPESA_SHORTCODE', '603021'),
             'ResponseType' => 'completed',
-            'ConfirmationURL' => env('MPESA_LOCALDEV_URL') ."confirmation",
-            'ValidationURL' =>  env('MPESA_LOCALDEV_URL') ."validation",
+            'ConfirmationURL' => env('MPESA_LOCALDEV_URL') ."/api/confirmation",
+            'ValidationURL' =>  env('MPESA_LOCALDEV_URL') ."/api/validation",
           );
 
           $url = env('MPESA_ENV') == 0  ? 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl' : 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl';
@@ -52,7 +52,7 @@ class MPESAController extends Controller
             'PartyA' => $request->phone,
             'PartyB' => env('MPESA_LNMO_SHORTCODE'),
             'PhoneNumber' => $request->phone,
-            'CallBackURL' => env('MPESA_LOCALDEV_URL') ."lnmocallback",
+            'CallBackURL' => env('MPESA_LOCALDEV_URL') ."/api/lnmocallback",
             'AccountReference' => $request->account,
             'TransactionDesc' => $request->account
           );
@@ -85,7 +85,6 @@ class MPESAController extends Controller
 
     public function simulateTransaction(Request $request){
         $curl_post_data = array(
-            //Fill in the request parameters with valid values
            'ShortCode' => env('MPESA_SHORTCODE', '603021'),
            'CommandID' => 'CustomerPayBillOnline',
            'Amount' => $request->amount,
@@ -102,7 +101,9 @@ class MPESAController extends Controller
 
 
     public function getAccessToken(){
-        $url = env('MPESA_ENV') == 0  ? "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" : "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+        $url = env('MPESA_ENV') == 0  
+        ? "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials" 
+        : "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
 
         $curl = curl_init($url);
 		curl_setopt_array(
@@ -121,7 +122,28 @@ class MPESAController extends Controller
         return $result->access_token;
     }
 
+    public function sendB2C(Request $request){
+        $url = env('MPESA_ENV') == 0  
+        ? "https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest" 
+        : "https://api.safaricom.co.ke/mpesa/b2c/v1/paymentrequest";
 
+        $curl_post_data = array(
+            'InitiatorName' => ENV('MPESA_B2C_INITIATOR'),
+            'SecurityCredential' => env('MPESA_B2C_PASSWORD'),
+            'CommandID' => 'SalaryPayment',
+            'Amount' => $request->amount,
+            'PartyA' => env('MPESA_SHORTCODE'),
+            'PartyB' => $request->phone,
+            'Remarks' => $request->remarks,
+            'QueueTimeOutURL' => env('MPESA_LOCALDEV_URL') . '/api/b2c-timeout',
+            'ResultURL' => env('MPESA_LOCALDEV_URL') . '/api/b2c-result',
+            'Occasion' => 'SalaryPayment'
+          );
+
+          $b2bResponse = $this->makeHttp($url, $curl_post_data);
+
+          return $b2bResponse;
+    }
 
     public function makeHttp($url, $data){
         $curl = curl_init();
